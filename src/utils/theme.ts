@@ -1,5 +1,10 @@
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 
+export const scrollToTheTop = () => {
+  document.body.scrollTop = 0 // For Safari
+  document.documentElement.scrollTop = 0 // For Chrome, Firefox, IE and Opera
+}
+
 ////////////////////// SIZES ////////////////////////
 export const pageHeaderHeight = '65px'
 ///////////////////// PALETTE ///////////////////////
@@ -7,7 +12,6 @@ export const darkBlue = '#00012d'
 export const green = '#22c993'
 export const darkGreen = '#1b5e20'
 export const white = '#FFFFFF'
-export const dateFormat = 'dd-MM-yyyy'
 
 export default createMuiTheme({
   palette: {

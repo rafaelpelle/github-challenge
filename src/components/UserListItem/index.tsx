@@ -1,25 +1,22 @@
-import React from 'react'
-import { ListItem, ListItemText, ListItemAvatar, Avatar, Typography } from '@material-ui/core'
+import React, { Fragment } from 'react'
+import { ListItem, ListItemText, ListItemAvatar, Avatar, Typography, Divider } from '@material-ui/core'
 import { UserPreview } from '../../utils/interfaces'
 
 export default function UserListItem(props: Props) {
+  const { id, login, avatar_url } = props.user
   return (
-    <ListItem alignItems='flex-start'>
-      <ListItemAvatar>
-        <Avatar src='/static/images/avatar/1.jpg' />
-      </ListItemAvatar>
-      <ListItemText
-        primary='Brunch this weekend?'
-        secondary={
-          <React.Fragment>
-            <Typography component='span' variant='body2' color='textPrimary'>
-              Ali Connors
-            </Typography>
-            {" — I'll be in your neighborhood doing errands this…"}
-          </React.Fragment>
-        }
-      />
-    </ListItem>
+    <Fragment>
+      <ListItem alignItems='flex-start'>
+        <ListItemAvatar>
+          <Avatar src={avatar_url} />
+        </ListItemAvatar>
+        <ListItemText
+          primary={<Typography variant='subtitle2'>{login}</Typography>}
+          secondary={<Typography variant='caption'>ID: {id}</Typography>}
+        />
+      </ListItem>
+      <Divider />
+    </Fragment>
   )
 }
 
@@ -27,5 +24,5 @@ export default function UserListItem(props: Props) {
 /////////////////////////////////// INTERFACES ///////////////////////////////////
 //////////////////////////////////////////////////////////////////////////////////
 interface Props {
-  // user: UserPreview
+  user: UserPreview
 }
