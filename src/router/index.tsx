@@ -1,6 +1,6 @@
 // EXTERNAL DEPENDENCIES
 import React from 'react'
-import { Redirect, Route } from 'react-router'
+import { Route } from 'react-router'
 // INTERNAL DEPENDENCIES
 import UserListPage from '../pages/UserListPage'
 
