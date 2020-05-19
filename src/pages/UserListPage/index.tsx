@@ -7,6 +7,7 @@ import { scrollToTheTop } from '../../utils/theme'
 import { UserPreview } from '../../utils/interfaces'
 import UserService from '../../services/UserService'
 import UserListItem from '../../components/UserListItem'
+import FullPageLoading from '../../components/FullPageLoading'
 
 export default function UserListPage(props: Props) {
   const [isLoading, setIsLoading] = useState<boolean>(false)
@@ -35,11 +36,15 @@ export default function UserListPage(props: Props) {
 
   return (
     <div>
-      <List>
-        {users.map((user, index) => (
-          <UserListItem user={user} key={index} />
-        ))}
-      </List>
+      {isLoading ? (
+        <FullPageLoading />
+      ) : (
+        <List>
+          {users.map((user, index) => (
+            <UserListItem user={user} key={index} />
+          ))}
+        </List>
+      )}
       <Pagination
         style={{ width: 'fit-content', margin: '2em auto' }}
         count={100}
