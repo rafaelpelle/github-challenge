@@ -6,7 +6,7 @@ export default function UserListItem(props: Props) {
   const { id, login, avatar_url } = props.user
   return (
     <Fragment>
-      <ListItem alignItems='flex-start'>
+      <ListItem style={{ cursor: 'pointer' }} alignItems='flex-start'>
         <ListItemAvatar>
           <Avatar src={avatar_url} />
         </ListItemAvatar>
