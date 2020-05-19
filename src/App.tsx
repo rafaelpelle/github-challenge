@@ -1,13 +1,27 @@
+// EXTERNAL DEPENDENCIES
 import React from 'react'
-import { Typography } from '@material-ui/core'
+import { Router, Switch } from 'react-router-dom'
+// INTERNAL DEPENDENCIES
+import MyRoutes from './router/'
+import history from './router/history'
+import Header from './components/Header'
 
-function App() {
+export default function App() {
+  React.useEffect(() => {
+    history.listen(() => scrollToTheTop())
+  }, [])
+
+  const scrollToTheTop = () => {
+    document.body.scrollTop = 0 // For Safari
+    document.documentElement.scrollTop = 0 // For Chrome, Firefox, IE and Opera
+  }
+
   return (
-    <div>
-      <Typography>teste</Typography>
-      <p>teste</p>
-    </div>
+    <Router history={history}>
+      <Header />
+      <Switch>
+        <MyRoutes />
+      </Switch>
+    </Router>
   )
 }
-
-export default App
