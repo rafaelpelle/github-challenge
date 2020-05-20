@@ -2,6 +2,7 @@
 import React, { Fragment, useState, useEffect } from 'react'
 import { List, Paper } from '@material-ui/core'
 import { Pagination } from '@material-ui/lab'
+import { useSnackbar } from 'notistack'
 // INTERNAL DEPENDENCIES
 import './style.css'
 import { scrollToTheTop } from '../../utils/theme'
@@ -12,6 +13,7 @@ import UserModal from '../../components/UserModal'
 import FullPageLoading from '../../components/FullPageLoading'
 
 export default function UserListPage() {
+  const { enqueueSnackbar } = useSnackbar()
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [page, setPage] = useState<number>(1)
   const [users, setUsers] = useState<UserPreview[]>([])
@@ -29,6 +31,7 @@ export default function UserListPage() {
       const { data } = await UserService.getAllUsers(currentPage)
       setUsers(data)
     } catch (e) {
+      enqueueSnackbar('An error occurred while fetching the GitHub data!', { variant: 'error' })
       console.error(e)
     }
     setIsLoading(false)
@@ -48,6 +51,7 @@ export default function UserListPage() {
       setSelectedUser(userResponse.data)
       setRepositories(repoResponse.data)
     } catch (e) {
+      enqueueSnackbar('An error occurred while fetching the GitHub data!', { variant: 'error' })
       console.error(e)
     }
     setIsLoading(false)

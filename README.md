@@ -1,6 +1,6 @@
 # github-challenge
 
-<!-- **Live at: https://something.rafaelpelle.tech** -->
+**Live at: http://opme.rafaelpelle.tech/**
 
 ## Requirements
 
