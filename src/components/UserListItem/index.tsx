@@ -3,10 +3,11 @@ import { ListItem, ListItemText, ListItemAvatar, Avatar, Typography, Divider } f
 import { UserPreview } from '../../utils/interfaces'
 
 export default function UserListItem(props: Props) {
-  const { id, login, avatar_url } = props.user
+  const { user, handleClick } = props
+  const { id, login, avatar_url } = user
   return (
     <Fragment>
-      <ListItem style={{ cursor: 'pointer' }} alignItems='flex-start'>
+      <ListItem style={{ cursor: 'pointer' }} alignItems='flex-start' onClick={() => handleClick(user)}>
         <ListItemAvatar>
           <Avatar src={avatar_url} />
         </ListItemAvatar>
@@ -25,4 +26,5 @@ export default function UserListItem(props: Props) {
 //////////////////////////////////////////////////////////////////////////////////
 interface Props {
   user: UserPreview
+  handleClick: (user: UserPreview) => Promise<void>
 }

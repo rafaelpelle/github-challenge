@@ -5,22 +5,24 @@ import { Pagination } from '@material-ui/lab'
 // INTERNAL DEPENDENCIES
 import './style.css'
 import { scrollToTheTop } from '../../utils/theme'
-import { UserPreview } from '../../utils/interfaces'
+import { UserPreview, User } from '../../utils/interfaces'
 import UserService from '../../services/UserService'
 import UserListItem from '../../components/UserListItem'
+import UserModal from '../../components/UserModal'
 import FullPageLoading from '../../components/FullPageLoading'
 
 export default function UserListPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false)
   const [page, setPage] = useState<number>(1)
   const [users, setUsers] = useState<UserPreview[]>([])
+  const [selectedUser, setSelectedUser] = useState<User | null>(null)
 
   useEffect(() => {
     getUserPage(page)
     scrollToTheTop()
   }, [page])
 
-  const getUserPage = async (currentPage: number) => {
+  const getUserPage = async (currentPage: number): Promise<void> => {
     setIsLoading(true)
     try {
       const { data } = await UserService.getAllUsers(currentPage)
@@ -31,8 +33,23 @@ export default function UserListPage() {
     setIsLoading(false)
   }
 
-  const handleChangePagination = (event: React.ChangeEvent<unknown>, value: number) => {
+  const handleChangePagination = (event: React.ChangeEvent<unknown>, value: number): void => {
     setPage(value)
+  }
+
+  const handleClick = async (user: UserPreview): Promise<void> => {
+    setIsLoading(true)
+    try {
+      const { data } = await UserService.getSingleUser(user.login)
+      setSelectedUser(data)
+    } catch (e) {
+      console.error(e)
+    }
+    setIsLoading(false)
+  }
+
+  const handleClose = (): void => {
+    setSelectedUser(null)
   }
 
   return isLoading ? (
@@ -42,7 +59,7 @@ export default function UserListPage() {
       <Paper className='list-container'>
         <List disablePadding>
           {users.map((user, index) => (
-            <UserListItem user={user} key={index} />
+            <UserListItem user={user} key={index} handleClick={handleClick} />
           ))}
         </List>
       </Paper>
@@ -53,6 +70,7 @@ export default function UserListPage() {
         onChange={handleChangePagination}
         color='primary'
       />
+      <UserModal selectedUser={selectedUser} handleClose={handleClose} />
     </Fragment>
   )
 }
