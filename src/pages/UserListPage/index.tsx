@@ -5,7 +5,7 @@ import { Pagination } from '@material-ui/lab'
 // INTERNAL DEPENDENCIES
 import './style.css'
 import { scrollToTheTop } from '../../utils/theme'
-import { UserPreview, User } from '../../utils/interfaces'
+import { UserPreview, User, Repository } from '../../utils/interfaces'
 import UserService from '../../services/UserService'
 import UserListItem from '../../components/UserListItem'
 import UserModal from '../../components/UserModal'
@@ -16,13 +16,14 @@ export default function UserListPage() {
   const [page, setPage] = useState<number>(1)
   const [users, setUsers] = useState<UserPreview[]>([])
   const [selectedUser, setSelectedUser] = useState<User | null>(null)
+  const [repositories, setRepositories] = useState<Repository[]>([])
 
   useEffect(() => {
     getUserPage(page)
     scrollToTheTop()
   }, [page])
 
-  const getUserPage = async (currentPage: number): Promise<void> => {
+  const getUserPage = async (currentPage: number) => {
     setIsLoading(true)
     try {
       const { data } = await UserService.getAllUsers(currentPage)
@@ -33,23 +34,28 @@ export default function UserListPage() {
     setIsLoading(false)
   }
 
-  const handleChangePagination = (event: React.ChangeEvent<unknown>, value: number): void => {
+  const handleChangePagination = (event: React.ChangeEvent<unknown>, value: number) => {
     setPage(value)
   }
 
-  const handleClick = async (user: UserPreview): Promise<void> => {
+  const handleClick = async (user: UserPreview) => {
     setIsLoading(true)
     try {
-      const { data } = await UserService.getSingleUser(user.login)
-      setSelectedUser(data)
+      const [userResponse, repoResponse] = await Promise.all([
+        UserService.getSingleUser(user.login),
+        UserService.getUserRepositories(user.login),
+      ])
+      setSelectedUser(userResponse.data)
+      setRepositories(repoResponse.data)
     } catch (e) {
       console.error(e)
     }
     setIsLoading(false)
   }
 
-  const handleClose = (): void => {
+  const handleClose = () => {
     setSelectedUser(null)
+    setRepositories([])
   }
 
   return isLoading ? (
@@ -70,7 +76,7 @@ export default function UserListPage() {
         onChange={handleChangePagination}
         color='primary'
       />
-      <UserModal selectedUser={selectedUser} handleClose={handleClose} />
+      <UserModal selectedUser={selectedUser} repositories={repositories} handleClose={handleClose} />
     </Fragment>
   )
 }

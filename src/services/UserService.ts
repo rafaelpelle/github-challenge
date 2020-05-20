@@ -10,6 +10,10 @@ class UserService {
   getSingleUser(userLogin: string) {
     return axiosInstance.get(`/users/${userLogin}`)
   }
+
+  getUserRepositories(userLogin: string) {
+    return axiosInstance.get(`/users/${userLogin}/repos`)
+  }
 }
 
 export default new UserService()

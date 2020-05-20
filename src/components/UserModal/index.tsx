@@ -3,14 +3,15 @@ import React from 'react'
 import { format } from 'date-fns'
 import { Button, Dialog, DialogActions, DialogContent, Avatar } from '@material-ui/core'
 // INTERNAL DEPENDENCIES'
-import { User } from '../../utils/interfaces'
+import { User, Repository } from '../../utils/interfaces'
+import RepositoryTable from '../RepositoryTable'
 import FormField from './FormField'
 
 export default function UserModal(props: Props) {
-  const { selectedUser, handleClose } = props
+  const { selectedUser, repositories, handleClose } = props
 
   return (
-    <Dialog open={!!selectedUser} onClose={handleClose} fullWidth maxWidth='md'>
+    <Dialog open={!!selectedUser} onClose={handleClose} maxWidth='md' fullWidth>
       {!!selectedUser && (
         <DialogContent>
           <div style={{ display: 'flex', alignItems: 'center' }}>
@@ -28,6 +29,7 @@ export default function UserModal(props: Props) {
               />
             </div>
           </div>
+          <RepositoryTable repositories={repositories} />
         </DialogContent>
       )}
       <DialogActions>
@@ -44,5 +46,6 @@ export default function UserModal(props: Props) {
 //////////////////////////////////////////////////////////////////////////////////
 interface Props {
   selectedUser: User | null
+  repositories: Repository[]
   handleClose: () => void
 }
