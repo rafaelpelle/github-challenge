@@ -1,16 +1,20 @@
 # github-challenge
 
-**Live at: https://opme.rafaelpelle.tech/**
+## Challenge description and technical requirements
+
+Click [here](challenge.md) to open.
+
+
+## Live at:
+https://github-list.rafaelpelle.tech/
 
 ## Requirements
-
-- Node
-- Yarn (recommended)
+- Node v14
 
 ## Installation
 
 ```
-yarn install
+npm install
 ```
 
 ## Usage
@@ -18,11 +22,11 @@ yarn install
 To initialize the development server:
 
 ```
-yarn start
+npm start
 ```
 
 To build the production bundle:
 
 ```
-yarn build
+npm build
 ```
